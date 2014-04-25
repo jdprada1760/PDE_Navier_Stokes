@@ -27,8 +27,6 @@ int main(int argc, char **argv){
   for( j = 0; j < n_x; j++){
     x0[j] = j*dx;
   }
-
-  // Constante c de la ecuacion diferencial de Linear convection
  
   // Vector de evolucion de la velocidad u del fluido
   FLOAT *u = malloc(n_x *sizeof(FLOAT));
@@ -41,7 +39,7 @@ int main(int argc, char **argv){
   // Inicializa las condiciones iniciales en el vector u
   initCondition(u,x0,n_x);
 
-  // Imprimir u
+  // Imprime el primer valor de u
   for( i = 0; i < n_x-1; i++){
     fprintf(data, "%f ", (float) u[i]);
   }
@@ -50,7 +48,7 @@ int main(int argc, char **argv){
   // Actualiza la funcion u
   for( j= 0; j < n_t; j++){
     updateFunc(u,x0,n_x,dx,dt);
-    // Imprimir la funcion u
+    // Imprime la funcion u
     for( i = 0; i < n_x-1; i++){
       fprintf(data, "%f ", (float) u[i]);
     }
@@ -85,5 +83,7 @@ void updateFunc( FLOAT * u, FLOAT *x0, int n_x, FLOAT dx, FLOAT dt ){
     //printf("%f\n", upast[i]);
     u[i] = upast[i] - c*(dt/dx)*(upast[i] - upast[i-1]);
   }
+  // Libera memoria
+  free(upast);
 
 }
